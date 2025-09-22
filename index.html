@@ -1,70 +1,377 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phép Lạ Thánh Thể – Carlo Acutis</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FreshLaundry — Giặt Ủi Cao Cấp</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons (Font Awesome CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --text:#07243a;
+      --primary:#0d47a1;     /* deep blue */
+      --accent:#ffb703;      /* warm accent */
+      --radius:14px;
+      --shadow: 0 12px 36px rgba(2,6,23,0.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    img{display:block;max-width:100%}
+
+    /* HEADER */
+    header{
+      position:sticky;top:0;z-index:220;background:linear-gradient(90deg,var(--primary),#1565c0);
+      color:#fff;padding:12px 24px;backdrop-filter:blur(6px);
+      box-shadow:0 6px 18px rgba(2,6,23,0.08);
+    }
+    .header-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:18px;}
+    .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+    .brand img{width:56px;height:56px;border-radius:12px;object-fit:cover;box-shadow:0 8px 26px rgba(0,0,0,0.12)}
+    .brand .title{font-weight:700;font-size:18px;letter-spacing:.2px}
+    nav{margin-left:auto;display:flex;align-items:center;gap:18px}
+    nav a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:600;padding:8px 12px;border-radius:8px}
+    nav a:hover{background:rgba(255,255,255,0.06)}
+    .btn-cta{background:var(--accent);color:#07243a;padding:10px 16px;border-radius:10px;font-weight:800;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(255,183,3,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:8px 12px;border-radius:8px}
+
+    /* HERO / BANNER */
+    .hero{position:relative;min-height:78vh;display:grid;align-items:center}
+    .hero .bg{
+      position:absolute;inset:0;background-image:url('https://images.pexels.com/photos/5591790/pexels-photo-5591790.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-size:cover;background-position:center;filter:contrast(.95) saturate(.98);z-index:0;
+    }
+    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.42),rgba(2,6,23,0.28));z-index:1}
+    .hero .inner{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+    .hero h1{color:#fff;font-size:44px;margin-bottom:12px;line-height:1.02}
+    .hero p{color:rgba(255,255,255,0.95);margin-bottom:18px;font-size:18px}
+    .hero .actions{display:flex;gap:12px;align-items:center}
+    .hero .card-quick{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);color:var(--text)}
+
+    /* SECTIONS */
+    section{padding:64px 24px;max-width:1180px;margin:0 auto}
+    .section-title{ text-align:center;margin-bottom:28px}
+    .section-title h2{font-size:28px;color:var(--primary);margin-bottom:6px}
+    .section-title p{color:var(--muted);margin:0}
+
+    /* SERVICES */
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .service{background:var(--card);padding:22px;border-radius:12px;box-shadow:var(--shadow);text-align:center;transition:transform .18s,box-shadow .18s}
+    .service:hover{transform:translateY(-8px);box-shadow:0 18px 50px rgba(2,6,23,0.12)}
+    .service .icon{width:68px;height:68px;margin:0 auto 12px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(13,71,161,.06),rgba(13,71,161,.02))}
+    .service h3{color:var(--primary);margin-bottom:8px}
+    .service p{color:var(--muted);font-size:14px}
+
+    /* HOW IT WORKS */
+    .steps{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+    .step{flex:1;min-width:180px;background:linear-gradient(180deg,var(--card),#fbfdff);padding:18px;border-radius:12px;box-shadow:var(--shadow);text-align:center}
+    .step .num{background:linear-gradient(90deg,var(--primary),#1976d2);color:#fff;width:44px;height:44px;border-radius:8px;display:inline-grid;place-items:center;font-weight:800;margin-bottom:10px}
+
+    /* PROMO */
+    .promo{background-image:url('https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg?auto=compress&cs=tinysrgb&w=1600');background-size:cover;background-position:center;border-radius:12px;padding:60px 24px;color:#fff;box-shadow:var(--shadow);margin:32px 0;position:relative;overflow:hidden}
+    .promo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.45),rgba(2,6,23,0.25));}
+    .promo .content{position:relative;z-index:2;max-width:800px}
+
+    /* TESTIMONIALS */
+    .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .testi{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+
+    /* GALLERY */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .gallery img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+
+    /* ORDER FORM */
+    .order-wrap{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+    .order{background:var(--card);padding:20px;border-radius:12px;box-shadow:var(--shadow)}
+    .order input,.order textarea,.order select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7;margin-bottom:10px}
+    .order button{background:linear-gradient(90deg,var(--primary),#1565c0);color:#fff;padding:12px;border-radius:10px;border:none;font-weight:700;cursor:pointer;width:100%}
+
+    /* FOOTER */
+    footer{background:linear-gradient(90deg,#083b66,#062c54);color:#fff;padding:36px 24px;margin-top:36px}
+    .footer-grid{display:flex;flex-wrap:wrap;gap:20px;max-width:1180px;margin:0 auto}
+    .footer-col{flex:1;min-width:200px}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){ .hero .inner{grid-template-columns:1fr; padding:36px 18px} .order-wrap{grid-template-columns:1fr} .gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:720px){ nav{display:none} header{padding:12px 16px} .brand img{width:48px;height:48px} .hero h1{font-size:28px} .hero p{font-size:15px} .hero .inner{padding:24px} }
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+  </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <nav>
-      <div class="logo">
-        <img src="assets/img/logo.png" alt="Logo" class="logo-img">
-        <span>Phép Lạ Thánh Thể</span>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="brand" onclick="scrollToTop()">
+        <!-- Logo image from Pexels (used as logo/banner icon) -->
+        <img id="brandLogo" src="https://images.pexels.com/photos/7299683/pexels-photo-7299683.jpeg?auto=compress&cs=tinysrgb&w=160" alt="FreshLaundry logo">
+        <div>
+          <div class="title">FreshLaundry</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.9)">Giặt ủi & giao nhận tận nơi</div>
+        </div>
       </div>
-      <ul>
-        <li><a href="#gioi-thieu">Giới thiệu</a></li>
-        <li><a href="#phep-la">Phép lạ</a></li>
-        <li><a href="#lien-he">Liên hệ</a></li>
-      </ul>
-    </nav>
+
+      <nav aria-label="Main navigation">
+        <a href="#services">Dịch vụ</a>
+        <a href="#how">Quy trình</a>
+        <a href="#pricing">Bảng giá</a>
+        <a href="#order">Đặt hàng</a>
+        <a class="btn-cta" href="#order">Đặt ngay</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <img src="assets/img/banner.jpg" alt="Banner Carlo Acutis">
-    <div class="hero-text">
-      <h1>Phép Lạ Thánh Thể</h1>
-      <p>Dựa trên bộ sưu tập của Chân Phước Carlo Acutis</p>
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="inner">
+      <div class="left">
+        <h1>FreshLaundry — Sạch Sẽ • Nhanh Chóng • Tin Cậy</h1>
+        <p>Đội ngũ 20 nhân viên chuyên nghiệp, phục vụ giặt ủi cho cá nhân, gia đình & doanh nghiệp. Đặt online — nhận & trả tận nơi.</p>
+
+        <div class="actions" style="margin-top:18px">
+          <a class="btn-cta" href="#order"><i class="fa fa-calendar-check"></i>&nbsp; Đặt lịch ngay</a>
+          <a class="btn-ghost" href="#services" style="margin-left:8px">Xem dịch vụ</a>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:12px">
+          <div style="background:rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:#fff">
+            <div style="font-weight:800;font-size:18px">20+</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.9)">Nhân viên</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:#fff">
+            <div style="font-weight:800;font-size:18px">10k+</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.9)">Đơn phục vụ</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card-quick reveal" style="min-width:280px">
+        <div style="font-weight:700;margin-bottom:8px">Đặt hàng nhanh</div>
+        <input id="qName" placeholder="Họ & tên" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7;margin-bottom:8px">
+        <input id="qPhone" placeholder="Số điện thoại" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7;margin-bottom:8px">
+        <select id="qService" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef7;margin-bottom:8px">
+          <option>Chọn dịch vụ</option>
+          <option>Giặt + ủi</option>
+          <option>Giặt khô</option>
+          <option>Giặt chăn ga</option>
+        </select>
+        <button onclick="quickOrder()" style="width:100%;padding:10px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--primary),#1565c0);color:#fff;font-weight:700">Gửi yêu cầu</button>
+        <div id="qMsg" style="font-size:13px;color:var(--muted);margin-top:8px"></div>
+      </aside>
     </div>
   </section>
 
-  <!-- Giới thiệu -->
-  <section id="gioi-thieu" class="content">
-    <h2>Về dự án</h2>
-    <p>Trang web này trình bày lại các phép lạ Thánh Thể được Chân Phước Carlo Acutis thu thập và phổ biến.
-       Đây là phiên bản tiếng Việt, nhằm giúp mọi người dễ dàng tiếp cận kho tàng đức tin này.</p>
-  </section>
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-title">
+      <h2>Dịch vụ nổi bật</h2>
+      <p>Các gói phục vụ gia đình, khách sạn & doanh nghiệp — xử lý vết bẩn chuyên sâu</p>
+    </div>
 
-  <!-- Phép lạ -->
-  <section id="phep-la" class="gallery">
-    <h2>Các phép lạ nổi bật</h2>
-    <div class="grid">
-      <div class="card">
-        <img src="assets/img/lanciano.jpg" alt="Lanciano">
-        <h3>Lanciano – Ý</h3>
-        <p>Phép lạ Thánh Thể xảy ra vào thế kỷ VIII, bánh và rượu trở thành thịt và máu thật.</p>
+    <div class="services-grid">
+      <div class="service reveal">
+        <div class="icon"><i class="fa-solid fa-shirt"></i></div>
+        <h3>Giặt & Ủi Quần Áo</h3>
+        <p>Giặt chuyên sâu, ủi hơi, bảo vệ form & màu vải.</p>
       </div>
-      <div class="card">
-        <img src="assets/img/santarem.jpg" alt="Santarem">
-        <h3>Santarém – Bồ Đào Nha</h3>
-        <p>Phép lạ xảy ra thế kỷ XIII, máu thấm ra từ Bánh Thánh và còn lưu giữ đến hôm nay.</p>
+
+      <div class="service reveal">
+        <div class="icon"><i class="fa-solid fa-hand-holding-droplet"></i></div>
+        <h3>Giặt Khô Cao Cấp</h3>
+        <p>Quy trình an toàn cho đồ cao cấp, loại bỏ vết khó.</p>
       </div>
-      <div class="card">
-        <img src="assets/img/siena.jpg" alt="Siena">
-        <h3>Siena – Ý</h3>
-        <p>Năm 1730, hơn 200 Bánh Thánh bị đánh cắp, sau đó được tìm thấy và còn nguyên vẹn đến nay.</p>
+
+      <div class="service reveal">
+        <div class="icon"><i class="fa-solid fa-truck"></i></div>
+        <h3>Giao Nhận Tận Nhà</h3>
+        <p>Thu & giao đúng hẹn, lịch linh hoạt theo nhu cầu.</p>
+      </div>
+
+      <div class="service reveal">
+        <div class="icon"><i class="fa-solid fa-bed"></i></div>
+        <h3>Giặt Chăn Ga & Rèm</h3>
+        <p>Xử lý kích thước lớn bằng máy chuyên dụng, khô đều.</p>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer id="lien-he">
-    <p>© 2025 PhepLaThanhTheAcutis – Dựa theo bộ triển lãm Carlo Acutis</p>
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-title">
+      <h2>Quy trình 4 bước</h2>
+      <p>Đơn giản, minh bạch và an toàn — theo dõi từng bước</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h4>Đặt lịch</h4>
+        <p>Chọn dịch vụ, nhập địa chỉ, chọn khung giờ.</p>
+      </div>
+
+      <div class="step reveal">
+        <div class="num">2</div>
+        <h4>Nhận đồ</h4>
+        <p>Nhân viên đến lấy, ghi chú vết bẩn cần xử lý.</p>
+      </div>
+
+      <div class="step reveal">
+        <div class="num">3</div>
+        <h4>Giặt & Xử lý</h4>
+        <p>Phân loại, xử lý vết bẩn, giặt bằng thiết bị chuyên dụng.</p>
+      </div>
+
+      <div class="step reveal">
+        <div class="num">4</div>
+        <h4>Giao trả</h4>
+        <p>Giao trả, kiểm tra chất lượng trước khi bàn giao.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <section class="promo" aria-hidden="false">
+    <div class="content">
+      <h2>Ưu đãi: Giảm 20% cho đơn hàng đầu tiên</h2>
+      <p>Nhập mã <strong>WELCOME20</strong> khi đặt để được giảm giá.</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="section-title"><h2>Khách hàng nói gì</h2><p>Đánh giá thực tế từ những người đã sử dụng dịch vụ</p></div>
+    <div class="testi-grid">
+      <div class="testi reveal">
+        <p>"Quần áo sạch thơm, giao đúng giờ. Rất hài lòng!"</p>
+        <strong>- Minh H.</strong>
+      </div>
+      <div class="testi reveal">
+        <p>"Gói VIP xử lý vết bẩn rất tốt, nhân viên thân thiện."</p>
+        <strong>- Lan T.</strong>
+      </div>
+      <div class="testi reveal">
+        <p>"Tiện lợi, đặt online nhanh chóng, giá hợp lý."</p>
+        <strong>- Hùng P.</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY (small) -->
+  <section>
+    <div class="section-title"><h2>Hình ảnh xưởng & quy trình</h2><p>Thực tế từ xưởng giặt của chúng tôi</p></div>
+    <div class="gallery reveal">
+      <img src="https://images.pexels.com/photos/4474231/pexels-photo-4474231.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+      <img src="https://images.pexels.com/photos/4050313/pexels-photo-4050313.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+      <img src="https://images.pexels.com/photos/5632396/pexels-photo-5632396.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+      <img src="https://images.pexels.com/photos/5539473/pexels-photo-5539473.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+    </div>
+  </section>
+
+  <!-- ORDER / CONTACT -->
+  <section id="order">
+    <div class="section-title"><h2>Đặt hàng nhanh</h2><p>Điền thông tin, chúng tôi sẽ gọi lại xác nhận</p></div>
+
+    <div class="order-wrap">
+      <form class="order reveal" id="orderForm" onsubmit="handleOrder(event)">
+        <input name="name" id="name" placeholder="Họ và tên" required>
+        <input name="phone" id="phone" placeholder="Số điện thoại" required>
+        <input name="email" id="email" placeholder="Email (tùy chọn)">
+        <select id="serviceSelect" name="service">
+          <option>Chọn dịch vụ</option>
+          <option>Giặt + ủi</option>
+          <option>Giặt khô</option>
+          <option>Giặt chăn ga</option>
+        </select>
+        <textarea id="notes" name="notes" rows="4" placeholder="Ghi chú (tùy chọn)"></textarea>
+        <button type="submit">Gửi đơn</button>
+        <div id="orderMsg" style="margin-top:10px;color:var(--muted)"></div>
+      </form>
+
+      <aside class="order card-quick reveal" style="padding:18px;">
+        <h4>Thông tin nhanh</h4>
+        <p style="margin:8px 0;color:var(--muted)">Hotline: <strong>0909 123 456</strong></p>
+        <p style="margin:8px 0;color:var(--muted)">Giờ: 07:00 - 20:00 (T2 - CN)</p>
+        <p style="margin:8px 0;color:var(--muted)">Địa chỉ: 123 Đường Hoa Mai, Đà Lạt</p>
+        <div style="margin-top:12px"><a class="btn-ghost" href="#contact">Xem bản đồ</a></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <strong>FreshLaundry</strong>
+        <div style="margin-top:8px;color:rgba(255,255,255,0.85)">Giặt ủi & giao nhận tận nơi — Chuyên nghiệp & Uy tín</div>
+      </div>
+
+      <div class="footer-col">
+        <strong>Liên hệ</strong>
+        <div style="margin-top:8px;color:rgba(255,255,255,0.85)">📍 123 Đường Hoa Mai, Đà Lạt</div>
+        <div style="color:rgba(255,255,255,0.85)">📞 0909 123 456</div>
+        <div style="color:rgba(255,255,255,0.85)">✉️ hello@freshlaundry.vn</div>
+      </div>
+
+      <div class="footer-col">
+        <strong>Mạng xã hội</strong>
+        <div style="margin-top:12px">
+          <a href="#" style="color:inherit;margin-right:10px"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" style="color:inherit;margin-right:10px"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" style="color:inherit"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:18px;color:rgba(255,255,255,0.75)">&copy; 2025 FreshLaundry. All rights reserved.</div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <!-- SCRIPTS -->
+  <script>
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){ e.target.classList.add('visible'); e.target.style.opacity = 1; e.target.style.transform = 'none'; io.unobserve(e.target); }
+      });
+    }, {threshold: 0.12});
+    reveals.forEach(r => { r.style.opacity = 0; r.style.transform = 'translateY(12px)'; io.observe(r); });
+
+    // Quick order
+    function quickOrder(){
+      const n = document.getElementById('qName').value.trim();
+      const p = document.getElementById('qPhone').value.trim();
+      const msg = document.getElementById('qMsg');
+      if(!n || !p){ msg.style.color='crimson'; msg.textContent='Vui lòng nhập họ tên và số điện thoại.'; return; }
+      msg.style.color='green'; msg.textContent='Cảm ơn! Yêu cầu đã được gửi. Chúng tôi sẽ gọi xác nhận.';
+      setTimeout(()=>{ msg.textContent=''; document.getElementById('qName').value=''; document.getElementById('qPhone').value=''; },3000);
+    }
+
+    // Order form (demo: client-side only)
+    function handleOrder(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const orderMsg = document.getElementById('orderMsg');
+      if(!name || !phone){ orderMsg.style.color='crimson'; orderMsg.textContent='Vui lòng điền họ tên và số điện thoại.'; return; }
+      orderMsg.style.color='green'; orderMsg.textContent='Cảm ơn! Đơn hàng đã được ghi nhận. Chúng tôi sẽ gọi xác nhận.';
+      e.target.reset();
+    }
+
+    // Scroll to top brand click
+    function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+  </script>
 </body>
 </html>
